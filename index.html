@@ -325,6 +325,8 @@
             transform: translateX(-50%);
             text-align: center;
             animation: bounce 2s infinite;
+            width: 100%;
+            max-width: 120px;
         }
         
         .scroll-indicator i {
@@ -547,6 +549,21 @@
             /* Footer adjustments */
             footer .container {
                 padding: 30px 20px;
+            }
+            
+            /* Fix scroll indicator positioning on mobile */
+            .scroll-indicator {
+                bottom: 15px;
+                max-width: 80px;
+            }
+            
+            .scroll-indicator i {
+                font-size: 1.5rem;
+            }
+            
+            .scroll-indicator p {
+                font-size: 0.8rem;
+                margin-top: 3px;
             }
         }
         
