@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rishit Korivi | Portfolio</title>
     <!-- Google Fonts: Paytone One -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,6 +109,12 @@
             color: #fff;
             background-color: rgba(255, 119, 0, 0.7);
             box-shadow: 0 4px 10px rgba(255, 119, 0, 0.3);
+        }
+        
+        /* Hamburger menu (hidden by default) */
+        .hamburger {
+            display: none;
+            cursor: pointer;
         }
         
         /* Dropdown indicator */
@@ -400,6 +406,169 @@
             line-height: 1.6;
         }
 
+        /* Nav Link Animation */
+        @keyframes navLinkFade {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            /* Header & Navigation for mobile */
+            header {
+                width: 95%;
+                top: 10px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: linear-gradient(to right, #161616, #232323);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 998;
+                transition: right 0.5s ease;
+                padding: 0;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 20px 0;
+            }
+            
+            .hamburger {
+                display: block;
+                cursor: pointer;
+                z-index: 999;
+                position: relative;
+            }
+            
+            .hamburger div {
+                width: 25px;
+                height: 3px;
+                background-color: white;
+                margin: 5px;
+                transition: all 0.3s ease;
+            }
+            
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+            
+            /* Project grid for mobile */
+            .projects-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            /* Hero section adjustments */
+            #hero .hero-content {
+                padding-left: 5%;
+                padding-right: 5%;
+                justify-content: center;
+            }
+            
+            .hero-text {
+                text-align: center;
+            }
+            
+            /* Container padding */
+            .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            /* Skill item wrapping */
+            .skills-list li {
+                margin-bottom: 10px;
+            }
+            
+            /* Font size adjustments for mobile */
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .typing-text {
+                font-size: 1.1rem;
+            }
+            
+            /* Project card adjustments */
+            .project-image {
+                height: 160px;
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            /* Contact section adjustments */
+            .contact-links li {
+                padding: 8px 15px;
+            }
+            
+            .social-link {
+                width: 38px;
+                height: 38px;
+                line-height: 38px;
+            }
+            
+            /* Footer adjustments */
+            footer .container {
+                padding: 30px 20px;
+            }
+        }
+        
+        /* For tablets and medium screens */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .projects-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+        
+        /* For desktops */
+        @media (min-width: 1025px) {
+            .projects-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 60px 30px;
+            }
+        }
+
         /* Add CSS for typing animation */
         .typing-text {
             display: inline-block;
@@ -477,6 +646,11 @@
         <div class="container">
             <nav>
                 <div class="logo"><a href="#hero" style="text-decoration: none; color: inherit;">Rishit Korivi</a></div>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
                 <ul class="nav-links">
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -837,6 +1011,42 @@
         
         faders.forEach(fader => {
             appearOnScroll.observe(fader);
+        });
+        
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const navLinksItems = document.querySelectorAll('.nav-links li');
+        
+        hamburger.addEventListener('click', () => {
+            // Toggle Nav
+            navLinks.classList.toggle('active');
+            
+            // Toggle Hamburger Animation
+            hamburger.classList.toggle('active');
+            
+            // Animate Links
+            navLinksItems.forEach((link, index) => {
+                if (link.style.animation) {
+                    link.style.animation = '';
+                } else {
+                    link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                }
+            });
+        });
+        
+        // Close mobile menu when clicking a nav link
+        navLinksItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    
+                    navLinksItems.forEach(link => {
+                        link.style.animation = '';
+                    });
+                }
+            });
         });
         
         // Parallax scrolling effect and header shrinking
